@@ -6,8 +6,8 @@ const APPWRITE_DATABASE_ID = "651d3c7c4f33d867a2a0";
 const APPWRITE_COLLECTION_ID = "65518ad68b8491b76792";
 
 const client = new Client()
-    .setEndpoint(APPWRITE_ENDPOINT)
-    .setProject(APPWRITE_PROJECT_ID); // Replace with your project ID
+  .setEndpoint(APPWRITE_ENDPOINT)
+  .setProject(APPWRITE_PROJECT_ID); // Replace with your project ID
 
 const account = new Account(client);
 const databases = new Databases(client);

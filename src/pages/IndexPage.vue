@@ -40,6 +40,13 @@
           </q-item>
         </q-list>
       </div>
+
+      <q-inner-loading
+          :showing="loading"
+          label="Please wait..."
+          label-class="text-teal"
+          label-style="font-size: 1.1em"
+      />
       
       <q-fab class="absolute-bottom-right q-pr-xl q-pb-xl" @click="openForm()" />
     </q-page>
@@ -57,6 +64,7 @@ export default defineComponent({
     return {
       movies: [],
       searchKey: "",
+      loading: false,
     };
   },
   computed: {
@@ -75,6 +83,7 @@ export default defineComponent({
         this.$router.push(`/movie/${movie.$id}`);
     },
     async getMovies() {
+      this.loading = true;
       const data = await databases.listDocuments(
         APPWRITE_DATABASE_ID,
         APPWRITE_COLLECTION_ID,
@@ -82,6 +91,7 @@ export default defineComponent({
       );
       let docs = data.documents;
       this.movies = docs || [];
+      this.loading = false;
     }
   },
   async created() {

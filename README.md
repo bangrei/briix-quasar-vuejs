@@ -1,4 +1,4 @@
-# Quasar App (briix)
+# Quasar App (briix-app)
 
 A Quasar Project
 
