@@ -47,8 +47,10 @@
           label-class="text-teal"
           label-style="font-size: 1.1em"
       />
-      
-      <q-fab class="absolute-bottom-right q-pr-xl q-pb-xl" @click="openForm()" />
+
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!loading">
+        <q-btn fab icon="add" color="primary" @click="openForm()" />
+      </q-page-sticky>
     </q-page>
   </q-page-container>
 </template>
