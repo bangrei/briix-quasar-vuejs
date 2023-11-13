@@ -40,6 +40,22 @@
                 label-class="text-teal"
                 label-style="font-size: 1.1em"
             />
+
+            <q-dialog v-model="showModal" persistent transition-show="scale" transition-hide="scale">
+                <q-card class="bg-red text-white" style="width: 300px">
+                    <q-card-section>
+                    <div class="text-h6">Something went wrong!</div>
+                    </q-card-section>
+
+                    <q-card-section class="q-pt-none">
+                        {{ errorMessage }}
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="bg-white text-teal">
+                    <q-btn flat label="OK" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+                </q-dialog>
         </div>
     </q-page>
   </q-page-container>
@@ -61,6 +77,8 @@ export default defineComponent({
             summary: "",
             genres: [],
             loading: false,
+            showModal: false,
+            errorMessage: "",
         };
     },
     methods: {
@@ -101,32 +119,39 @@ export default defineComponent({
             this.goBack();
         },
         async createMovie() {
-            if (!this.title) return;
-            if (!this.director) return;
-            this.loading = true;
-            const payload = {
-                title: this.title,
-                director: this.director,
-                summary: this.summary,
-                genres: this.genres,
+            try {
+                if (!this.title) return;
+                if (!this.director) return;
+                this.loading = true;
+                const payload = {
+                    title: this.title,
+                    director: this.director,
+                    summary: this.summary,
+                    genres: this.genres,
+                }
+                if (this.id) {
+                    await databases.updateDocument(
+                        APPWRITE_DATABASE_ID,
+                        APPWRITE_COLLECTION_ID,
+                        this.id,
+                        payload
+                    );
+                } else {
+                    await databases.createDocument(
+                        APPWRITE_DATABASE_ID,
+                        APPWRITE_COLLECTION_ID,
+                        "",
+                        payload
+                    );
+                }
+                this.loading = false;
+                this.goBack();
+            } catch (error) {
+                this.loading = false;
+                console.log(error);
+                this.showModal = true;
+                this.errorMessage = error;
             }
-            if (this.id) {
-                await databases.updateDocument(
-                    APPWRITE_DATABASE_ID,
-                    APPWRITE_COLLECTION_ID,
-                    this.id,
-                    payload
-                );
-            } else {
-                await databases.createDocument(
-                    APPWRITE_DATABASE_ID,
-                    APPWRITE_COLLECTION_ID,
-                    "",
-                    payload
-                );
-            }
-            this.loading = false;
-            this.goBack();
         },
     },
     async created() {
