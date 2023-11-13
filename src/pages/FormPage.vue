@@ -31,6 +31,7 @@
                     <q-btn push :color="genres.includes('Animation') ? 'primary' : 'dark'" label="Animation" @click="toggleGenres('Animation')" />
                     <q-btn push :color="genres.includes('Drama') ? 'primary' : 'dark'" label="Drama" @click="toggleGenres('Drama')" />
                     <q-btn push :color="genres.includes('Sci-Fi') ? 'primary' : 'dark'" label="Sci-Fi" @click="toggleGenres('Sci-Fi')" />
+                    <q-btn push :color="genres.includes('Horror') ? 'primary' : 'dark'" label="Horror" @click="toggleGenres('Horror')" />
                 </div>
             </div>
             <q-inner-loading
